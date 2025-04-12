@@ -24,7 +24,9 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "tsup",
-    "test": "mocha --require ts-node/register \"src/**/*.test.ts\""
+    "compile": "tsc",
+    "pretest": "npm run compile",
+    "test": "mocha \"dist/**/*.test.js\""
   },
   "exports": {
     ".": {

@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
     "esModuleInterop": true,
-    "target": "ES2022",
-    "moduleResolution": "node",
-    "module": "CommonJS",
-    "strict": false,
-    // need this to have IDE not collapse <T | null | undefined> to just T
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "resolveJsonModule": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
-    "node_modules",
-    "dist"
+    "node_modules"
   ]
 }
