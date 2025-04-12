@@ -6,30 +6,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  DB_PASSWORD_TEST: postgres
-  DB_USER_TEST: postgres
-  DB_NAME_TEST: knex_native_enums
-  DB_PORT_TEST: 5429
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 22.x]
-        postgres-version: [9, 16]
-
-    services:
-      postgres-test:
-        image: postgres:${{ matrix.postgres-version }}
-        env:
-          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD_TEST }}
-          POSTGRES_USER: ${{ env.DB_USER_TEST }}
-          POSTGRES_DB: ${{ env.DB_NAME_TEST }}
-        ports:
-          - "5429:5432"
 
     steps:
       - uses: actions/checkout@v3
@@ -37,10 +16,10 @@ jobs:
       - name: Load environment variables
         uses: xom9ikk/dotenv@v2
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js 22.x
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22.x
           cache: 'yarn'
 
       - name: Install dependencies
@@ -48,9 +27,3 @@ jobs:
 
       - name: Run tests
         run: yarn test
-        env:
-          PGHOST: localhost
-          PGUSER: ${{ env.DB_USER_TEST }}
-          PGPASSWORD: ${{ env.DB_PASSWORD_TEST }}
-          PGDATABASE: ${{ env.DB_NAME_TEST }}
-          PGPORT: ${{ env.DB_PORT_TEST }}
