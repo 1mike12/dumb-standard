@@ -1,7 +1,7 @@
 import {defineConfig} from 'tsup'
 
 export default defineConfig({
-   entry: ['src/**/*.ts', '!src/**/*.test.ts'],
+   entry: ['src/**/*.ts', '!src/**/*.test.ts', '!src/tests/**/*.ts'],
    format: ['cjs', 'esm'],
    dts: {
       // By specifying the entry, tsup bundles the declarations
@@ -11,9 +11,9 @@ export default defineConfig({
    splitting: false,
    sourcemap: false,
    clean: true,
-   outExtension({format}) {
-      return {
-         js: format === 'esm' ? '.mjs' : '.js'
-      }
-   },
+   // outExtension({format}) {
+   //    return {
+   //       js: format === 'esm' ? '.mjs' : '.js'
+   //    }
+   // },
 })

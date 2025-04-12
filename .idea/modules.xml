@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/knex-native-enums.iml" filepath="$PROJECT_DIR$/.idea/knex-native-enums.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dumb-standard.iml" filepath="$PROJECT_DIR$/.idea/dumb-standard.iml" />
     </modules>
   </component>
 </project>

@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 
 module.exports = {
-    "spec": "src/**/*.test.ts",
+    "spec": ["src/**/*.test.ts", "tests/**/*.test.ts"],
     "require": [
         "@swc-node/register"
     ],

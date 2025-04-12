@@ -5,15 +5,31 @@
   "license": "MS-PL",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1mike12/knex-native-enums.git"
+  },
+  "homepage": "https://github.com/1mike12/knex-native-enums#readme",
+  "bugs": {
+    "url": "https://github.com/1mike12/knex-native-enums/issues"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
-    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "tsup",
     "test": "mocha"
   },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     }
   },
@@ -23,15 +39,10 @@
     "@swc/core": "^1.3.80",
     "@types/chai": "^5.0.1",
     "@types/mocha": "^10.0.10",
+    "sinon": "^19.0.2",
     "chai": "^4.3.7",
-    "dotenv": "^16.4.7",
     "mocha": "^10.2.0",
-    "rimraf": "^6.0.1",
     "tsup": "^8.3.6",
     "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "knex": "^3.1.0",
-    "pg": "^8.14.0"
   }
 }
