@@ -1,5 +1,5 @@
 {
-  "name": "knex-native-enums",
+  "name": "dumb-standard",
   "version": "0.0.1",
   "type": "commonjs",
   "license": "MS-PL",
@@ -23,10 +23,10 @@
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "tsup",
+    "build": "npm run barrels && tsup",
     "compile": "tsc",
-    "pretest": "npm run compile",
-    "test": "mocha \"dist/**/*.test.js\""
+    "test": "mocha \"dist/**/*.test.js\"",
+    "barrels": "barrelsby -d src -l top -n index.ts -q -D -e \"\\.test\\.ts$\""
   },
   "exports": {
     ".": {
@@ -43,6 +43,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^20.11.24",
     "@types/sinon": "^17.0.4",
+    "barrelsby": "^2.8.1",
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
     "sinon": "^19.0.2",
