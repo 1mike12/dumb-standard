@@ -1,9 +1,9 @@
 import {expect} from "chai";
-import {LRU} from "./LRU";
+import {LRU_Single_Map} from "./LRU_Single_Map";
 
 describe("LRU", () => {
    it("should bump older values", () => {
-      const lru = new LRU(2)
+      const lru = new LRU_Single_Map(2)
       lru.set("a", 1)
       expect(lru.get("a")).to.equal(1)
       lru.set("b", 2)
@@ -13,7 +13,7 @@ describe("LRU", () => {
    });
 
    it("should evict the oldest item when the cache is full", () => {
-      const lru = new LRU(2);
+      const lru = new LRU_Single_Map(2);
       lru.set("a", 1);
       lru.set("b", 2);
       lru.set("c", 3);
@@ -23,7 +23,7 @@ describe("LRU", () => {
    });
 
    it("should bump items up just via gets", () => {
-      const lru = new LRU(2);
+      const lru = new LRU_Single_Map(2);
       lru.set("a", 1);
       lru.set("b", 2);
       lru.get("a");

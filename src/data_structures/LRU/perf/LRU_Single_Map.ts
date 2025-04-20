@@ -1,4 +1,4 @@
-export class LRU<K, V> {
+export class LRU_Single_Map<K, V> {
    public cache = new Map<K, V>()
 
    constructor(public maxSize: number) {

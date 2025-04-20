@@ -8,7 +8,7 @@ export * from './algorithms/matrix/rotate2DArray';
 export * from './algorithms/search/binarySearch';
 export * from './algorithms/shuffle/shuffleFisherYates';
 export * from './data_structures/ExpiringSet';
-export * from './data_structures/LRU';
+export * from './data_structures/LRU/perf/LRU_Single_Map';
 export * from './data_structures/LinkedList';
 export * from './data_structures/RingBuffer';
 export * from './math/safeRound';
