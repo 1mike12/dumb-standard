@@ -23,7 +23,8 @@
   ],
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "tsup",
+    "build": "npm run barrels && tsup",
+    "barrels": "barrelsby --directory src --exclude \"(perf|\\.test\\.ts$)\" --delete --noDefaultExport --singleQuotes",
     "compile": "tsc",
     "pretest": "npm run compile",
     "test": "mocha \"dist/**/*.test.js\""
@@ -48,6 +49,7 @@
     "mocha": "^10.2.0",
     "quick-lru": "^7.0.1",
     "sinon": "^19.0.2",
+    "tinybench": "^4.0.1",
     "ts-node": "^10.9.2",
     "tsup": "^8.3.6",
     "typescript": "^5.0.0"

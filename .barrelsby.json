@@ -1,0 +1,9 @@
+{
+    "directory": "./src",
+    "delete": true,
+    "exclude": "(perf|\\.test\\.ts$)",
+    "singleQuotes": true,
+    "noHeader": false,
+    "exportDefault": false,
+    "noDefaultExport": true
+}

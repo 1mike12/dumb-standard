@@ -1,51 +1,72 @@
 import { LRU_Single_Map } from "./LRU_Single_Map";
 import { LRU } from "../LRU";
 import QuickLRU from "quick-lru";
+import { Bench } from "tinybench";
 
-// Performance test
-function benchmark(CacheClass: any, ops = 1e6, keyRange = 2000, cacheSize = 1000) {
-    let cache;
-
-    if (CacheClass === QuickLRU) {
-        cache = new CacheClass({ maxSize: cacheSize });
-    } else {
-        cache = new CacheClass(cacheSize);
-    }
-
-    const keys = Array.from({ length: keyRange }, (_, i) => `key${i}`);
-    const start = process.hrtime.bigint();
-    for (let i = 0; i < ops; i++) {
-        const key = keys[Math.floor(Math.random() * keyRange)];
-        if (Math.random() < 0.5) {
-            cache.get(key);
-        } else {
-            cache.set(key, i);
-        }
-    }
-    const end = process.hrtime.bigint();
-    return Number(end - start) / 1e6; // ms
-}
-
-// Run benchmarks
-const OPS = 1e7;
+// Configuration
+const OPS_PER_ITERATION = 50000;
+const ITERATIONS = 20;
 const KEY_RANGE = 2000;
 const CACHE_SIZE = 1000;
 
-console.log(`Running ${OPS} operations on caches with size ${CACHE_SIZE} and key range ${KEY_RANGE}`);
+// Setup caches
+const quickLRU = new QuickLRU({ maxSize: CACHE_SIZE });
+const singleMapLRU = new LRU_Single_Map(CACHE_SIZE);
+const originalLRU = new LRU(CACHE_SIZE);
 
-const quickTime = benchmark(QuickLRU, OPS, KEY_RANGE, CACHE_SIZE);
-const singleMapTime = benchmark(LRU_Single_Map, OPS, KEY_RANGE, CACHE_SIZE);
-const originalTime = benchmark(LRU, OPS, KEY_RANGE, CACHE_SIZE);
+// Generate keys
+const keys = Array.from({ length: KEY_RANGE }, (_, i) => `key${i}`);
 
-// Find the slowest implementation to use as baseline
-const maxTime = Math.max(quickTime, singleMapTime, originalTime);
+// Create benchmark functions
+function benchmarkQuickLRU() {
+    for (let i = 0; i < OPS_PER_ITERATION; i++) {
+        const key = keys[Math.floor(Math.random() * KEY_RANGE)];
+        if (Math.random() < 0.5) {
+            quickLRU.get(key);
+        } else {
+            quickLRU.set(key, Math.random());
+        }
+    }
+}
 
-// Calculate relative speeds
-const quickSpeed = maxTime / quickTime;
-const singleMapSpeed = maxTime / singleMapTime;
-const originalSpeed = maxTime / originalTime;
+function benchmarkSingleMapLRU() {
+    for (let i = 0; i < OPS_PER_ITERATION; i++) {
+        const key = keys[Math.floor(Math.random() * KEY_RANGE)];
+        if (Math.random() < 0.5) {
+            singleMapLRU.get(key);
+        } else {
+            singleMapLRU.set(key, Math.random());
+        }
+    }
+}
 
-// Output results with relative speeds
-console.log(`NPM Quick-LRU: (${quickTime.toFixed(2)}ms) ${quickSpeed.toFixed(2)}x faster`);
-console.log(`Our Single Map LRU: (${singleMapTime.toFixed(2)}ms) ${singleMapSpeed.toFixed(2)}x faster`);
-console.log(`Our LRU: (${originalTime.toFixed(2)}ms) ${originalSpeed.toFixed(2)}x faster`);
+function benchmarkOriginalLRU() {
+    for (let i = 0; i < OPS_PER_ITERATION; i++) {
+        const key = keys[Math.floor(Math.random() * KEY_RANGE)];
+        if (Math.random() < 0.5) {
+            originalLRU.get(key);
+        } else {
+            originalLRU.set(key, Math.random());
+        }
+    }
+}
+
+async function runBenchmarks() {
+    console.log(`${ITERATIONS} iterations with ${OPS_PER_ITERATION} operations per iteration`);
+    console.log(`Cache size: ${CACHE_SIZE}, Key range: ${KEY_RANGE}\n`);
+
+    const bench = new Bench({
+        iterations: ITERATIONS,
+        name: "LRU Cache Implementations Comparison"
+    });
+
+    bench.add("NPM Quick-LRU", benchmarkQuickLRU);
+    bench.add("Our Single Map LRU", benchmarkSingleMapLRU);
+    bench.add("Our LRU", benchmarkOriginalLRU);
+
+    await bench.run();
+    console.log(bench.name);
+    console.table(bench.table());
+}
+
+runBenchmarks().catch(console.error);
