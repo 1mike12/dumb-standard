@@ -24,6 +24,8 @@ export * from "./math/probability/randomIntegerBetween";
 export * from "./math/probability/shapiroWilk";
 export * from "./node/getProcessIdentifier";
 export * from "./node/isValidTimeZone";
+export * from "./performance/LogBook";
+export * from "./performance/MemoryDebugger";
 export * from "./promise/promiseOnce";
 export * from "./promise/waitGaussian";
 export * from "./string/format/formatDuration";
