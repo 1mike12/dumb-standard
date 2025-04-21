@@ -1,4 +1,4 @@
-import {LinearCongruentGenerator} from "./number_generation/LinearCongruentGenerator";
+import {LinearCongruentGenerator} from "../../math/number_generation/LinearCongruentGenerator";
 
 /**
  *

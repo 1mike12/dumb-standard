@@ -1,6 +1,6 @@
 const formatters = new Map<string, Intl.NumberFormat>()
 
-export function localizeFloat(float: number, locale: string, maxPrecision: number = 2, cacheFormatter = true) {
+export function formatLocalFloat(float: number, locale: string, maxPrecision: number = 2, cacheFormatter = true) {
    const key = locale + maxPrecision
    let f = formatters[key]
    if (f === undefined) {

@@ -5,11 +5,9 @@ export class LogBook {
    formatter: Intl.DateTimeFormat
 
    constructor(timezone?: string) {
-      if (!timezone) {
-         this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-      }
+      this.timezone = timezone || 'America/New_York';
       this.formatter = new Intl.DateTimeFormat('en-US', {
-         timeZone: timezone,
+         timeZone: this.timezone,
          year: 'numeric',
          month: '2-digit',
          day: '2-digit',

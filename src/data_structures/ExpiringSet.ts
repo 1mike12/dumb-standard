@@ -29,12 +29,7 @@ export class ExpiringSet<T> {
     }
 
     delete(item: T): boolean {
-        const deleted = this.items.delete(item);
-        if (deleted) {
-            // No need to remove from queue - it'll be skipped during eviction
-            return true;
-        }
-        return false;
+        return this.items.delete(item);
     }
 
     private evictStale(): void {
