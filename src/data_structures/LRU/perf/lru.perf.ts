@@ -1,8 +1,3 @@
-// lru_performance.js
-// Two LRU cache implementations and a simple performance test
-
-// Single-map LRU (using insertion-order refresh)
-
 import { LRU_Single_Map } from "./LRU_Single_Map";
 import { LRU } from "../LRU";
 import QuickLRU from "quick-lru";

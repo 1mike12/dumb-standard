@@ -22,12 +22,11 @@
     "README.md"
   ],
   "scripts": {
-    "prepublishOnly": "npm run build",
-    "build": "npm run barrels && tsup",
-    "barrels": "barrelsby --directory src --exclude \"(perf|\\.test\\.ts$)\" --delete --noDefaultExport --singleQuotes",
+    "prepublishOnly": "yarn build",
+    "build": "yarn barrels && tsup",
+    "barrels": "barrelsby --config .barrelsby.json",
     "compile": "tsc",
-    "pretest": "npm run compile",
-    "test": "mocha \"dist/**/*.test.js\""
+    "test": "npx mocha"
   },
   "exports": {
     ".": {
