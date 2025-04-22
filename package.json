@@ -31,7 +31,6 @@
     "build": "yarn barrels && tsup",
     "barrels": "barrelsby --config .barrelsby.json",
     "compile": "tsc",
-    "pretest": "yarn compile",
     "test": "npx mocha"
   },
   "exports": {
