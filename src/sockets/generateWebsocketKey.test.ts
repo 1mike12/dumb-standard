@@ -1,5 +1,5 @@
-import { expect } from "chai";
 import { generateWebsocketKey } from "./generateWebsocketKey";
+import {expect} from "chai";
 
 describe("generateWebsocketKey", () => {
     it("should generate a key of fixed length", () => {
