@@ -10,6 +10,7 @@ export * from "./algorithms/shuffle/shuffleFisherYates";
 export * from "./data_structures/ExpiringSet";
 export * from "./data_structures/LinkedList";
 export * from "./data_structures/RingBuffer";
+export * from "./data_structures/ExpiringArray/ExpiringArray";
 export * from "./data_structures/LRU/LRU";
 export * from "./date/getISODateDelta";
 export * from "./date/randomDateBetween";
