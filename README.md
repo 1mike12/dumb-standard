@@ -12,3 +12,35 @@ No. But it ain't bad
 > Why not just install X, Y and Z from npm?
 
 I don't want to be exposed to some left pad shenanigans
+
+## Installation
+
+```bash
+npm install dumb-standard
+# or
+yarn add dumb-standard
+```
+
+## Usage
+
+```typescript
+import { binarySearch, LinkedList, isValidEmail } from 'dumb-standard';
+
+// Use the algorithms and data structures
+const result = binarySearch([1, 2, 3, 4, 5], 3);
+const list = new LinkedList();
+const isValid = isValidEmail('example@example.com');
+```
+
+## Features
+
+- Algorithms (searching, sorting, shuffling, etc.)
+- Data structures (LinkedList, RingBuffer, LRU, etc.)
+- String utilities (validation, formatting, etc.)
+- Math utilities (random number generation, probability, etc.)
+- Promise utilities
+- Node.js utilities
+
+## License
+
+Microsoft Public License (Ms-PL)

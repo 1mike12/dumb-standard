@@ -1,20 +1,25 @@
 {
-  "name": "knex-native-enums",
-  "version": "0.0.1",
+  "name": "dumb-standard",
+  "version": "0.0.3",
+  "description": "A collection of standard algorithms and data structures for TypeScript projects",
   "type": "commonjs",
   "license": "MS-PL",
+  "author": "Mike",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/1mike12/knex-native-enums.git"
+    "url": "git+https://github.com/1mike12/dumb-standard.git"
   },
-  "homepage": "https://github.com/1mike12/knex-native-enums#readme",
+  "homepage": "https://github.com/1mike12/dumb-standard#readme",
   "bugs": {
-    "url": "https://github.com/1mike12/knex-native-enums/issues"
+    "url": "https://github.com/1mike12/dumb-standard/issues"
   },
   "keywords": [
-    "typescript"
+    "typescript",
+    "algorithms",
+    "data-structures",
+    "standard-library"
   ],
   "files": [
     "dist",
@@ -34,6 +39,9 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     }
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "devDependencies": {
     "@swc-node/register": "^1.9.0",
