@@ -1,3 +1,8 @@
+/**
+ * Calculate the mode (most frequent number) of an array of numbers
+ * @param numbers
+ * @returns The mode of the array. This is an array since there can be multiple modes.
+ */
 export function mode(numbers: number[]): number[] {
   const frequencyMap = new Map<number, number>();
 
