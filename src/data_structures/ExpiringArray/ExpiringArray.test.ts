@@ -1,6 +1,6 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import sinon from "sinon"
-import {ExpiringArray} from "./ExpiringArray";
+import { ExpiringArray } from "./ExpiringArray";
 
 describe('ExpiringArray', () => {
    let clock: sinon.SinonFakeTimers;
@@ -62,6 +62,15 @@ describe('ExpiringArray', () => {
       });
    });
 
+   describe("clear", () => {
+      it("should clear the array", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.clear();
+         expect(arr.length).to.equal(0);
+      });
+   });
+
    describe('iterator', () => {
       it('should iterate over all items in chronological order', () => {
          const arr = new ExpiringArray<number>(2000);
@@ -73,7 +82,7 @@ describe('ExpiringArray', () => {
          arr.push(3);
 
          const values: number[] = [];
-         for (const [_, value] of arr) {
+         for (const value of arr) {
             values.push(value);
          }
 
@@ -93,7 +102,7 @@ describe('ExpiringArray', () => {
          clock.tick(500); // item2 is now 1100ms old
 
          const values: number[] = [];
-         for (const [_, value] of arr) {
+         for (const value of arr) {
             values.push(value);
          }
 
@@ -134,4 +143,74 @@ describe('ExpiringArray', () => {
          expect(arr.length).to.equal(0);
       });
    });
+
+   describe("arrayLikeMethods", () => {
+      it("should be able to iterate over the array", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         const result: number[] = [];
+         for (const value of arr) {
+            result.push(value);
+         }
+         expect(result).to.deep.equal([1, 2]);
+      });
+
+      it("should be able to iterate over the array with forEach", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         const result: number[] = [];
+         arr.forEach((value, index, timestamp) => {
+            result.push(value);
+         });
+         expect(result).to.deep.equal([1, 2]);
+      });
+
+      it("should be able to iterate over the array with map", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         const result: number[] = [];
+         arr.map((value, index, timestamp) => {
+            result.push(value);
+         });
+         expect(result).to.deep.equal([1, 2]);
+      });
+
+      it("should be able to iterate over the array with filter", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         const result = arr.filter((value, index, timestamp) => {
+            return value > 1;
+         });
+         expect(result).to.deep.equal([2]);
+      });
+   });
+
+   describe("find", () => {
+      it("should find an item in the array", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         const result = arr.find((value, index, timestamp) => {
+            return value === 2;
+         });
+         expect(result).to.equal(2);
+      });
+   });
+
+   describe("findIndex", () => {
+      it("should find the index of an item in the array", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         const result = arr.findIndex((value, index, timestamp) => {
+            return value === 2;
+         });
+         expect(result).to.equal(1);
+      });
+   });
+
 });
