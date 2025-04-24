@@ -32,7 +32,7 @@
     "barrels": "barrelsby --config .barrelsby.json",
     "compile": "tsc",
     "test": "npx mocha",
-    "coverage": "nyc --reporter=text-summary --temp-directory=/tmp/nyc_temp npx mocha"
+    "coverage": "nyc --reporter=text --temp-directory=/tmp/nyc_temp npx mocha"
   },
   "exports": {
     ".": {

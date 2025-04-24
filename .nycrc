@@ -8,13 +8,10 @@
         "src/**/*.ts"
     ],
     "exclude": [
-        "**/perf/**",
+        "**/@perf/**",
         "**/*.test.ts",
         "**/*.d.ts",
         "dist/**"
-    ],
-    "reporter": [
-        "text-summary"
     ],
     "skip-full": true,
     "clean": true,
