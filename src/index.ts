@@ -34,6 +34,7 @@ export * from "./math/probability/shapiroWilk";
 export * from "./math/stats/kurtosis";
 export * from "./math/stats/normalize";
 export * from "./math/stats/percentile";
+export * from "./math/stats/sample_variance";
 export * from "./math/stats/skewness";
 export * from "./math/stats/standardDeviation";
 export * from "./math/stats/variance";
