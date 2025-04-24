@@ -28,6 +28,7 @@ export * from "./math/probability/boxMuller";
 export * from "./math/probability/normallyDistributedFloat";
 export * from "./math/probability/normallyDistributedInt";
 export * from "./math/probability/randomBoolean";
+export * from "./math/probability/randomFloatBetween";
 export * from "./math/probability/randomIntegerBetween";
 export * from "./math/probability/shapiroWilk";
 export * from "./math/stats/kurtosis";
