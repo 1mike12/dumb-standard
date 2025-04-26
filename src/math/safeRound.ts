@@ -1,13 +1,15 @@
 /**
  * Rounds a number to a specified number of decimal places, while avoiding floating-point errors.
  *
- * the epsilon as suggested by dr gpt is there to bump up the number by a tiny amount that may mathematically be a round up operation but after floating point results in
- * a round down.
+ * the epsilon adjustment is added or subtracted depending on the number's sign to ensure
+ * that values exactly at the midpoint round away from zero, following standard rounding conventions.
  *
  * @param num
  * @param decimalPlaces
  */
 export function safeRound(num: number, decimalPlaces: number): number {
   const multiplier = 10 ** decimalPlaces
-  return Math.round((num + Number.EPSILON) * multiplier) / multiplier
+  // Add epsilon for positive numbers, subtract for negative to ensure proper rounding
+  const adjustment = num >= 0 ? Number.EPSILON : -Number.EPSILON
+  return Math.round((num + adjustment) * multiplier) / multiplier
 }

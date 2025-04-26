@@ -1,6 +1,6 @@
 {
   "name": "dumb-standard",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "A collection of standard algorithms and data structures for TypeScript projects",
   "type": "commonjs",
   "license": "MS-PL",
@@ -31,7 +31,8 @@
     "build": "yarn barrels && tsup",
     "barrels": "barrelsby --config .barrelsby.json",
     "compile": "tsc",
-    "test": "npx mocha"
+    "test": "npx mocha",
+    "coverage": "nyc --reporter=text --temp-directory=/tmp/nyc_temp npx mocha"
   },
   "exports": {
     ".": {
@@ -44,9 +45,9 @@
     "node": ">=14.0.0"
   },
   "devDependencies": {
-    "@swc-node/register": "^1.9.0",
-    "@swc/core": "^1.4.13",
-    "@swc/types": "^0.1.5",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@swc-node/register": "^1.10.9",
+    "@swc/core": "^1.3.80",
     "@types/chai": "^5.0.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^20.11.24",
@@ -54,6 +55,7 @@
     "barrelsby": "^2.8.1",
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
+    "nyc": "^17.1.0",
     "quick-lru": "^7.0.1",
     "sinon": "^19.0.2",
     "tinybench": "^4.0.1",

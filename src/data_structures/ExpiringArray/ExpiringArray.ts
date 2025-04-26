@@ -1,4 +1,4 @@
-export class ExpiringArray<T> implements Iterable<[number, T]> {
+export class ExpiringArray<T> implements Iterable<T> {
    private data: [number, T][] = [];
 
    constructor(private readonly windowMs: number) {
@@ -28,11 +28,11 @@ export class ExpiringArray<T> implements Iterable<[number, T]> {
       }
    }
 
-   /** Iterate over [timestamp, value] tuples in chronological order */
-   *[Symbol.iterator](): IterableIterator<[number, T]> {
+   /** Iterate over values in chronological order */
+   *[Symbol.iterator](): IterableIterator<T> {
       this.evict();
       for (const entry of this.data) {
-         yield entry;
+         yield entry[1]
       }
    }
 
@@ -48,10 +48,10 @@ export class ExpiringArray<T> implements Iterable<[number, T]> {
       return this.data.length;
    }
 
-   forEach(callback: (value: T, timestamp: number, index: number) => void): void {
+   forEach(callback: (value: T, index: number, timestamp: number) => void): void {
       this.evict();
       this.data.forEach(([timestamp, value], index) => {
-         callback(value, timestamp, index);
+         callback(value, index, timestamp);
       });
    }
 
