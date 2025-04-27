@@ -3,9 +3,10 @@
  */
 
 export * from "./algorithms/pickRandom";
+export * from "./algorithms/array/binarySearch";
+export * from "./algorithms/array/createArrayLooper";
 export * from "./algorithms/hashing/djb2";
 export * from "./algorithms/matrix/rotate2DArray";
-export * from "./algorithms/search/binarySearch";
 export * from "./algorithms/shuffle/shuffleFisherYates";
 export * from "./data_structures/ExpiringSet";
 export * from "./data_structures/LinkedList";
