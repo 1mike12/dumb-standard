@@ -1,5 +1,5 @@
-import {expect} from 'chai';
-import {RingBuffer} from "./RingBuffer";
+import { expect } from 'chai';
+import { RingBuffer } from "./RingBuffer";
 
 describe('CircularLog', () => {
 
@@ -9,7 +9,7 @@ describe('CircularLog', () => {
         expect(log.getAll()).to.deep.equal([]);
     });
 
-    it("should not infintely increase the index when adding lots of stuff", ()=> {
+    it("should not infintely increase the index when adding lots of stuff", () => {
         const log = new RingBuffer<number>(1);
         for (let i = 0; i < 100; i++) {
             log.push(i);
@@ -58,4 +58,125 @@ describe('CircularLog', () => {
         log.push('A');
         expect(log.getAll()).to.deep.equal(['A']);
     })
+});
+
+describe('RingBuffer', () => {
+    describe('reverse()', () => {
+        it('should iterate empty buffer correctly', () => {
+            const buffer = new RingBuffer<number>(5);
+            const result = [...buffer.reverse()];
+            expect(result).to.deep.equal([]);
+        });
+
+        it('should iterate partially filled buffer in reverse', () => {
+            const buffer = new RingBuffer<number>(5);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            const result = [...buffer.reverse()];
+            expect(result).to.deep.equal([3, 2, 1]);
+        });
+
+        it('should iterate fully filled buffer in reverse', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            const result = [...buffer.reverse()];
+            expect(result).to.deep.equal([3, 2, 1]);
+        });
+
+        it('should iterate wrapped buffer in reverse', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+            buffer.push(4);
+            buffer.push(5);
+
+            // After pushing [1,2,3,4,5] into a buffer of size 3:
+            // The buffer should contain [4,5,3] with currentIndex at 2
+            // When iterating in reverse order, it should return [2,1,0] indices
+            // which correspond to [3,5,4] in the buffer
+            const result = [...buffer.reverse()];
+            expect(result).to.deep.equal([5, 4, 3]);
+        });
+    });
+
+    describe('forEachReverse()', () => {
+        it('should iterate empty buffer correctly', () => {
+            const buffer = new RingBuffer<number>(5);
+            const result: number[] = [];
+            const indices: number[] = [];
+
+            buffer.forEachReverse((item, index) => {
+                result.push(item);
+                indices.push(index);
+            });
+
+            expect(result).to.deep.equal([]);
+            expect(indices).to.deep.equal([]);
+        });
+
+        it('should iterate partially filled buffer in reverse with index', () => {
+            const buffer = new RingBuffer<number>(5);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            const result: number[] = [];
+            const indices: number[] = [];
+
+            buffer.forEachReverse((item, index) => {
+                result.push(item);
+                indices.push(index);
+            });
+
+            expect(result).to.deep.equal([3, 2, 1]);
+            expect(indices).to.deep.equal([0, 1, 2]);
+        });
+
+        it('should iterate fully filled buffer in reverse with index', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            const result: number[] = [];
+            const indices: number[] = [];
+
+            buffer.forEachReverse((item, index) => {
+                result.push(item);
+                indices.push(index);
+            });
+
+            expect(result).to.deep.equal([3, 2, 1]);
+            expect(indices).to.deep.equal([0, 1, 2]);
+        });
+
+        it('should iterate wrapped buffer in reverse with index', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+            buffer.push(4);
+            buffer.push(5);
+
+            // After pushing [1,2,3,4,5] into a buffer of size 3:
+            // The buffer should contain [4,5,3] with currentIndex at 2
+            // When iterating in reverse order, it should return [5,4,3]
+            const result: number[] = [];
+            const indices: number[] = [];
+
+            buffer.forEachReverse((item, index) => {
+                result.push(item);
+                indices.push(index);
+            });
+
+            expect(result).to.deep.equal([5, 4, 3]);
+            expect(indices).to.deep.equal([0, 1, 2]);
+        });
+    });
 });
