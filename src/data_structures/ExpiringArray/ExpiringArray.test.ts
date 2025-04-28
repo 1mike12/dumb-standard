@@ -213,4 +213,44 @@ describe('ExpiringArray', () => {
       });
    });
 
+   describe("last and first", () => {
+      it("should return the last item in the array", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         arr.push(3);
+         expect(arr.last()).to.equal(3);
+      });
+
+      it("should return undefined when the array is empty", () => {
+         const arr = new ExpiringArray<number>(1000);
+         expect(arr.last()).to.equal(undefined);
+      });
+
+      it("should return the first item in the array", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         arr.push(2);
+         arr.push(3);
+         expect(arr.first()).to.equal(1);
+      });
+
+      it("should return undefined when the array is empty", () => {
+         const arr = new ExpiringArray<number>(1000);
+         expect(arr.first()).to.equal(undefined);
+      });
+
+      it("should evict expired items before returning first/last", () => {
+         const arr = new ExpiringArray<number>(1000);
+         arr.push(1);
+         clock.tick(500);
+         arr.push(2);
+         clock.tick(600); // item1 should now be expired (1100ms old)
+         arr.push(3);
+
+         expect(arr.first()).to.equal(2);
+         expect(arr.last()).to.equal(3);
+      });
+   });
+
 });
