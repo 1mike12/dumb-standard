@@ -253,4 +253,55 @@ describe('ExpiringArray', () => {
       });
    });
 
+   describe("reverse", () => {
+      it("should iterate over items in reverse chronological order", () => {
+         const arr = new ExpiringArray<number>(2000);
+
+         arr.push(1);
+         clock.tick(100);
+         arr.push(2);
+         clock.tick(100);
+         arr.push(3);
+
+         const values: number[] = [];
+         for (const value of arr.reverse()) {
+            values.push(value);
+         }
+
+         expect(values).to.deep.equal([3, 2, 1]);
+      });
+
+      it("should evict expired items before reverse iteration", () => {
+         const arr = new ExpiringArray<number>(1000);
+
+         arr.push(1);
+         clock.tick(500);
+         arr.push(2);
+         clock.tick(600); // item1 should now be expired (1100ms old)
+         arr.push(3);
+
+         // Move forward so item2 is also expired
+         clock.tick(500); // item2 is now 1100ms old
+
+         const values: number[] = [];
+         for (const value of arr.reverse()) {
+            values.push(value);
+         }
+
+         // Only item3 should remain
+         expect(values).to.deep.equal([3]);
+      });
+
+      it("should return empty iterator when array is empty", () => {
+         const arr = new ExpiringArray<number>(1000);
+
+         const values: number[] = [];
+         for (const value of arr.reverse()) {
+            values.push(value);
+         }
+
+         expect(values).to.deep.equal([]);
+      });
+   });
+
 });

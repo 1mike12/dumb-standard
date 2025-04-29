@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { RingBuffer } from "./RingBuffer";
 
-describe('CircularLog', () => {
+describe('RingBuffer', () => {
 
     it('should initialize empty', () => {
         const log = new RingBuffer<string>(3);
@@ -58,9 +58,69 @@ describe('CircularLog', () => {
         log.push('A');
         expect(log.toArray()).to.deep.equal(['A']);
     })
-});
 
-describe('RingBuffer', () => {
+    describe('map', () => {
+        it('should map elements in order from oldest to newest', () => {
+            const buffer = new RingBuffer<number>(5);
+
+            // Add elements
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            // Map each element to its square
+            const result = buffer.map(item => item * item);
+
+            expect(result).to.deep.equal([1, 4, 9]);
+        });
+
+        it('should handle a full buffer', () => {
+            const buffer = new RingBuffer<number>(3);
+
+            // Fill the buffer
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+            buffer.push(4); // This will overwrite 1
+
+            // Map each element to its square
+            const result = buffer.map(item => item * item);
+
+            expect(result).to.deep.equal([4, 9, 16]);
+        });
+    });
+
+    describe('mapReverse', () => {
+        it('should map elements in reverse order from newest to oldest', () => {
+            const buffer = new RingBuffer<number>(5);
+
+            // Add elements
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            // Map each element to its square in reverse order
+            const result = buffer.mapReverse(item => item * item);
+
+            expect(result).to.deep.equal([9, 4, 1]);
+        });
+
+        it('should handle a full buffer', () => {
+            const buffer = new RingBuffer<number>(3);
+
+            // Fill the buffer
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+            buffer.push(4); // This will overwrite 1
+
+            // Map each element to its square in reverse order
+            const result = buffer.mapReverse(item => item * item);
+
+            expect(result).to.deep.equal([16, 9, 4]);
+        });
+    });
+
     describe('reverse()', () => {
         it('should iterate empty buffer correctly', () => {
             const buffer = new RingBuffer<number>(5);
@@ -180,68 +240,6 @@ describe('RingBuffer', () => {
         });
     });
 
-    describe('map', () => {
-        it('should map elements in order from oldest to newest', () => {
-            const buffer = new RingBuffer<number>(5);
-
-            // Add elements
-            buffer.push(1);
-            buffer.push(2);
-            buffer.push(3);
-
-            // Map each element to its square
-            const result = buffer.map(item => item * item);
-
-            expect(result).to.deep.equal([1, 4, 9]);
-        });
-
-        it('should handle a full buffer', () => {
-            const buffer = new RingBuffer<number>(3);
-
-            // Fill the buffer
-            buffer.push(1);
-            buffer.push(2);
-            buffer.push(3);
-            buffer.push(4); // This will overwrite 1
-
-            // Map each element to its square
-            const result = buffer.map(item => item * item);
-
-            expect(result).to.deep.equal([4, 9, 16]);
-        });
-    });
-
-    describe('mapReverse', () => {
-        it('should map elements in reverse order from newest to oldest', () => {
-            const buffer = new RingBuffer<number>(5);
-
-            // Add elements
-            buffer.push(1);
-            buffer.push(2);
-            buffer.push(3);
-
-            // Map each element to its square in reverse order
-            const result = buffer.mapReverse(item => item * item);
-
-            expect(result).to.deep.equal([9, 4, 1]);
-        });
-
-        it('should handle a full buffer', () => {
-            const buffer = new RingBuffer<number>(3);
-
-            // Fill the buffer
-            buffer.push(1);
-            buffer.push(2);
-            buffer.push(3);
-            buffer.push(4); // This will overwrite 1
-
-            // Map each element to its square in reverse order
-            const result = buffer.mapReverse(item => item * item);
-
-            expect(result).to.deep.equal([16, 9, 4]);
-        });
-    });
-
     describe('forEach', () => {
         it('should execute callback for each element in order from oldest to newest', () => {
             const buffer = new RingBuffer<number>(5);
@@ -278,72 +276,105 @@ describe('RingBuffer', () => {
             expect(results).to.deep.equal([[0, 2], [1, 3], [2, 4]]);
         });
     });
-});
-
-describe('RingBuffer first() and last()', () => {
-    it('should be replaced with peekOldest and peekNewest tests', () => {
-        expect(true).to.be.true;
-    });
-});
-
-describe('RingBuffer peekOldest and peekNewest', () => {
-    it('should return undefined for peekOldest and peekNewest when buffer is empty', () => {
-        const buffer = new RingBuffer<number>(3);
-        expect(buffer.peekOldest()).to.be.undefined;
-        expect(buffer.peekNewest()).to.be.undefined;
+    describe('RingBuffer first() and last()', () => {
+        it('should be replaced with peekOldest and peekNewest tests', () => {
+            expect(true).to.be.true;
+        });
     });
 
-    it('should return the same value for peekOldest and peekNewest when buffer has one element', () => {
-        const buffer = new RingBuffer<number>(3);
-        buffer.push(42);
-        expect(buffer.peekOldest()).to.equal(42);
-        expect(buffer.peekNewest()).to.equal(42);
+    describe('RingBuffer peekOldest and peekNewest', () => {
+        it('should return undefined for peekOldest and peekNewest when buffer is empty', () => {
+            const buffer = new RingBuffer<number>(3);
+            expect(buffer.peekOldest()).to.be.undefined;
+            expect(buffer.peekNewest()).to.be.undefined;
+        });
+
+        it('should return the same value for peekOldest and peekNewest when buffer has one element', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(42);
+            expect(buffer.peekOldest()).to.equal(42);
+            expect(buffer.peekNewest()).to.equal(42);
+        });
+
+        it('should return correct peekOldest and peekNewest for partially filled buffer', () => {
+            const buffer = new RingBuffer<number>(5);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            expect(buffer.peekOldest()).to.equal(1);
+            expect(buffer.peekNewest()).to.equal(3);
+        });
+
+        it('should return correct peekOldest and peekNewest for full buffer', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+
+            expect(buffer.peekOldest()).to.equal(1);
+            expect(buffer.peekNewest()).to.equal(3);
+        });
+
+        it('should return correct peekOldest and peekNewest for wrapped buffer', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+            buffer.push(4);
+            buffer.push(5);
+
+            // After pushing [1,2,3,4,5] into a buffer of size 3:
+            // The buffer should contain [3,4,5] with currentIndex at 0
+            expect(buffer.peekOldest()).to.equal(3);
+            expect(buffer.peekNewest()).to.equal(5);
+        });
+
+        it('should handle edge case when currentIndex is at the beginning', () => {
+            const buffer = new RingBuffer<number>(3);
+            buffer.push(1);
+            buffer.push(2);
+            buffer.push(3);
+            buffer.push(4);
+
+            // After pushing [1,2,3,4] into a buffer of size 3:
+            // The buffer should contain [2,3,4] with currentIndex at 1
+            expect(buffer.peekOldest()).to.equal(2);
+            expect(buffer.peekNewest()).to.equal(4);
+        });
     });
 
-    it('should return correct peekOldest and peekNewest for partially filled buffer', () => {
-        const buffer = new RingBuffer<number>(5);
-        buffer.push(1);
-        buffer.push(2);
-        buffer.push(3);
+    describe("getOldestIndex", () => {
+        it("should work", () => {
+            const buffer = new RingBuffer<number>(3);
+            expect(buffer.getOldestIndex()).equal(0)
+            buffer.push(1);
+            buffer.push(2);
+            expect(buffer.getOldestIndex()).equal(0)
+            buffer.push(3);
+            expect(buffer.getOldestIndex()).equal(0)
+            buffer.push(4);
+            expect(buffer.getOldestIndex()).equal(1)
+            buffer.push(5);
+            expect(buffer.getOldestIndex()).equal(2)
+            buffer.push(6);
+            expect(buffer.getOldestIndex()).equal(0)
+        })
+    })
 
-        expect(buffer.peekOldest()).to.equal(1);
-        expect(buffer.peekNewest()).to.equal(3);
-    });
+    describe("getNewestIndex", () => {
+        it("should work", () => {
+            const buffer = new RingBuffer<number>(3);
+            expect(buffer.getNewestIndex()).equal(0)
+            buffer.push(1);
+            expect(buffer.getNewestIndex()).equal(0)
+            buffer.push(2);
+            expect(buffer.getNewestIndex()).equal(1)
+            buffer.push(3);
+            expect(buffer.getNewestIndex()).equal(2)
+            buffer.push(4);
+           expect(buffer.getNewestIndex()).equal(0)
+        })
+    })
 
-    it('should return correct peekOldest and peekNewest for full buffer', () => {
-        const buffer = new RingBuffer<number>(3);
-        buffer.push(1);
-        buffer.push(2);
-        buffer.push(3);
-
-        expect(buffer.peekOldest()).to.equal(1);
-        expect(buffer.peekNewest()).to.equal(3);
-    });
-
-    it('should return correct peekOldest and peekNewest for wrapped buffer', () => {
-        const buffer = new RingBuffer<number>(3);
-        buffer.push(1);
-        buffer.push(2);
-        buffer.push(3);
-        buffer.push(4);
-        buffer.push(5);
-
-        // After pushing [1,2,3,4,5] into a buffer of size 3:
-        // The buffer should contain [3,4,5] with currentIndex at 0
-        expect(buffer.peekOldest()).to.equal(3);
-        expect(buffer.peekNewest()).to.equal(5);
-    });
-
-    it('should handle edge case when currentIndex is at the beginning', () => {
-        const buffer = new RingBuffer<number>(3);
-        buffer.push(1);
-        buffer.push(2);
-        buffer.push(3);
-        buffer.push(4);
-
-        // After pushing [1,2,3,4] into a buffer of size 3:
-        // The buffer should contain [2,3,4] with currentIndex at 1
-        expect(buffer.peekOldest()).to.equal(2);
-        expect(buffer.peekNewest()).to.equal(4);
-    });
 });

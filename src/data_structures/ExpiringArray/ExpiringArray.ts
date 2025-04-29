@@ -1,3 +1,13 @@
+/**
+ * An array-like data structure that assigns each new element added a timestamp
+ * and evicts any elements older than a specified window.
+ *
+ * This data structure keeps a fixed window of time,
+ * but its size is dynamic and depends on if there are bursts of insertions
+ *
+ * This is useful for maintaining a somewhat fixed size data structure like a ring buffer
+ * but instead of a fixed size, it has a fixed window of time.
+ */
 export class ExpiringArray<T> implements Iterable<T> {
    private data: [number, T][] = [];
 
@@ -36,6 +46,14 @@ export class ExpiringArray<T> implements Iterable<T> {
       }
    }
 
+   /** Iterate over values in reverse chronological order */
+   * reverse(): IterableIterator<T> {
+      this.evict();
+      for (let i = this.data.length - 1; i >= 0; i--) {
+         yield this.data[i][1]
+      }
+   }
+
 
    /** Snapshot of current window as a new array */
    toArray(): T[] {
@@ -47,6 +65,9 @@ export class ExpiringArray<T> implements Iterable<T> {
       return output
    }
 
+   /**
+    * Get the number of elements in the current window
+    */
    get length(): number {
       this.evict()
       return this.data.length;
@@ -88,16 +109,25 @@ export class ExpiringArray<T> implements Iterable<T> {
       );
    }
 
+   /**
+    * Get the last element in the current window
+    */
    last(): T | undefined {
       this.evict();
       return this.data.length > 0 ? this.data[this.data.length - 1][1] : undefined;
    }
 
+   /**
+    * Get the first element in the current window
+    */
    first(): T | undefined {
       this.evict();
       return this.data.length > 0 ? this.data[0][1] : undefined;
    }
 
+   /**
+    * Clear the array
+    */
    clear(): void {
       this.data = [];
    }
