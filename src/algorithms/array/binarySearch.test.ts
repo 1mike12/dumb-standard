@@ -1,5 +1,5 @@
 import { binarySearch } from "./binarySearch"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("binarySearch", () => {
   it("finds the correct index of an element in the array", () => {

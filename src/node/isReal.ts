@@ -11,7 +11,9 @@
  * - `NaN` - false
  *
  */
-export function isReal(value: any): value is number | string | true | object | Array<any> {
+export function isReal(
+  value: any
+): value is number | string | true | object | Array<any> {
   if (value === 0) return true
   if (Array.isArray(value) && value.length === 0) return false
   return !!value

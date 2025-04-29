@@ -1,4 +1,4 @@
-import {getDecimalSeparator} from "./getDecimalSeparator";
+import { getDecimalSeparator } from "./getDecimalSeparator"
 
 /**
  * Parses a string to a float using the given locale, in order to support mainly different decimal separators like in
@@ -13,7 +13,9 @@ export function parseLocalFloat(value: string, locale: string | string[]) {
   }
   const decimalSeparator = getDecimalSeparator(locale)
   const nonDigitsOrPeriod = new RegExp(`[^0-9${decimalSeparator}]`, "g")
-  const standardized = value.replace(nonDigitsOrPeriod, "").replace(decimalSeparator, ".")
+  const standardized = value
+    .replace(nonDigitsOrPeriod, "")
+    .replace(decimalSeparator, ".")
 
   return parseFloat(standardized)
 }

@@ -1,4 +1,4 @@
-import { boxMuller } from "./boxMuller";
+import { boxMuller } from "./boxMuller"
 
 /**
  * Generates a random integer between `min` and `max` (inclusive) with a normal distribution. Uses the Box-Muller transform.
@@ -7,7 +7,9 @@ import { boxMuller } from "./boxMuller";
  */
 export function normallyDistributedInt(min: number, max: number): number {
   if (min > max) {
-    throw new RangeError("The minimum value must be less than or equal to the maximum value.")
+    throw new RangeError(
+      "The minimum value must be less than or equal to the maximum value."
+    )
   }
   const mean = (min + max) / 2
   const stdDev = (max - min) / 6

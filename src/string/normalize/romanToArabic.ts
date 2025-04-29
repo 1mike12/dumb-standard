@@ -12,11 +12,11 @@ const romanToArabic: { [key: string]: number } = {
 
 export function replaceRomanWithArabic(input: string): string {
   // Regular expression to match a space followed by Roman numerals from I to IX at the end of the string
-  const regex = /\s(I{1,3}|IV|V|VI{1,3}|IX)$/;
+  const regex = /\s(I{1,3}|IV|V|VI{1,3}|IX)$/
 
   return input.replace(regex, (match) => {
     match = match.trim()
-    const arabic =  romanToArabic[match].toString()
+    const arabic = romanToArabic[match].toString()
     return ` ${arabic}`
   })
 }

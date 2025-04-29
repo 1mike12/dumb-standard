@@ -1,5 +1,5 @@
 import { pickRandom } from "./pickRandom"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("pickRandom", () => {
   it("should return the correct number of elements", () => {

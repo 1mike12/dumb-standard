@@ -1,5 +1,5 @@
 import { prettyRound } from "./prettyRound"
-import {expect} from "chai";
+import { expect } from "chai"
 
 it("should format", () => {
   expect(prettyRound(1.23456789, 2)).equal("1.23")

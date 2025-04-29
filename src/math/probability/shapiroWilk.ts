@@ -13,7 +13,9 @@ export function shapiroWilk(data: number[]) {
   const sumSquares = deviations.reduce((acc, val) => acc + val ** 2, 0)
   const sampleVariance = sumSquares / (n - 1)
 
-  const a = sortedData.map((_, i) => i + 1).reduce((acc, val, index) => acc + val * deviations[index], 0)
+  const a = sortedData
+    .map((_, i) => i + 1)
+    .reduce((acc, val, index) => acc + val * deviations[index], 0)
   const w = a ** 2 / (sampleVariance * sumSquares)
 
   return w

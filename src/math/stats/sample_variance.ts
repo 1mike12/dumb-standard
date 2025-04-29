@@ -1,4 +1,4 @@
-import { mean as meanFn } from "../central_tendency/mean";
+import { mean as meanFn } from "../central_tendency/mean"
 
 /**
  * Calculate the sample variance of a dataset.
@@ -8,15 +8,18 @@ import { mean as meanFn } from "../central_tendency/mean";
  * @param mean - The mean of the dataset
  * @returns The sample variance of the dataset
  */
-export function sampleVariance(data: number[], mean: number = meanFn(data)): number {
-    if (data.length <= 1) {
-        throw new Error("Sample variance requires at least two data points");
-    }
+export function sampleVariance(
+  data: number[],
+  mean: number = meanFn(data)
+): number {
+  if (data.length <= 1) {
+    throw new Error("Sample variance requires at least two data points")
+  }
 
-    let sumSquaredDiffs = 0;
-    for (let i = 0; i < data.length; i++) {
-        sumSquaredDiffs += (data[i] - mean) ** 2;
-    }
+  let sumSquaredDiffs = 0
+  for (let i = 0; i < data.length; i++) {
+    sumSquaredDiffs += (data[i] - mean) ** 2
+  }
 
-    return sumSquaredDiffs / (data.length - 1);
-} 
+  return sumSquaredDiffs / (data.length - 1)
+}

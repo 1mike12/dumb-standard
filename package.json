@@ -21,18 +21,16 @@
     "data-structures",
     "standard-library"
   ],
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
+  "files": ["dist", "LICENSE", "README.md"],
   "scripts": {
     "prepublishOnly": "yarn build",
     "build": "yarn barrels && tsup",
     "barrels": "barrelsby --config .barrelsby.json",
     "compile": "tsc",
     "test": "npx mocha",
-    "coverage": "nyc --reporter=text --temp-directory=/tmp/nyc_temp npx mocha"
+    "coverage": "nyc --reporter=text --temp-directory=/tmp/nyc_temp npx mocha",
+    "format": "biome format --write .",
+    "check": "biome check --apply ."
   },
   "exports": {
     ".": {
@@ -45,6 +43,7 @@
     "node": ">=14.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@swc-node/register": "^1.10.9",
     "@swc/core": "^1.3.80",

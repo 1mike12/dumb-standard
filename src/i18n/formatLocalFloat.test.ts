@@ -1,5 +1,5 @@
 import { formatLocalFloat } from "./formatLocalFloat"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("localizeFloat", () => {
   it("should respect the precision", () => {
