@@ -40,7 +40,11 @@ export class ExpiringArray<T> implements Iterable<T> {
    /** Snapshot of current window as a new array */
    toArray(): T[] {
       this.evict()
-      return this.data.slice().map(x => x[1])
+      const output = new Array(this.data.length)
+      for (let i = 0; i < this.data.length; i++) {
+         output[i] = this.data[i][1]
+      }
+      return output
    }
 
    get length(): number {
@@ -82,6 +86,16 @@ export class ExpiringArray<T> implements Iterable<T> {
       return this.data.findIndex(([timestamp, value], index) =>
          predicate(value, timestamp, index)
       );
+   }
+
+   last(): T | undefined {
+      this.evict();
+      return this.data.length > 0 ? this.data[this.data.length - 1][1] : undefined;
+   }
+
+   first(): T | undefined {
+      this.evict();
+      return this.data.length > 0 ? this.data[0][1] : undefined;
    }
 
    clear(): void {
