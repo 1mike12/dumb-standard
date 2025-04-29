@@ -2,7 +2,6 @@ import { expect } from "chai"
 import { replaceRomanWithArabic } from "./romanToArabic"
 
 describe("romanToArabic", () => {
-
   it("should replace ending roman numerals with arabic numerals", () => {
     expect(replaceRomanWithArabic("Reef IV")).to.equal("Reef 4")
     expect(replaceRomanWithArabic("Reef VIII")).to.equal("Reef 8")

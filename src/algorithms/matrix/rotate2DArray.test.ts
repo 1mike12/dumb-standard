@@ -1,17 +1,17 @@
 import { rotate2DArray } from "./rotate2DArray"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("rotate2DArray", () => {
   it("should correctly rotate a 2D array", () => {
     const arr = [
       [1, 2, 3],
       [4, 5, 6],
-      [7, 8, 9]
+      [7, 8, 9],
     ]
     const rotated = [
       [1, 4, 7],
       [2, 5, 8],
-      [3, 6, 9]
+      [3, 6, 9],
     ]
     expect(rotate2DArray(arr)).deep.equal(rotated)
   })

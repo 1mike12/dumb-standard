@@ -1,5 +1,5 @@
 import { randomIntegerBetween } from "./randomIntegerBetween"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("randomIntegerBetween", () => {
   it("should return a number within the specified range", () => {

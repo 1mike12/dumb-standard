@@ -8,7 +8,11 @@ function defaultComparator(a, b) {
  * @param target
  * @param comparator
  */
-export function binarySearch(arr: unknown[], target: any, comparator = defaultComparator) {
+export function binarySearch(
+  arr: unknown[],
+  target: any,
+  comparator = defaultComparator
+) {
   let lo = 0
   let hi = arr.length - 1
   let mid: number, cmp: number

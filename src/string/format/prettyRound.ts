@@ -4,12 +4,12 @@
  * @param precision
  */
 export const prettyRound = (number: number, precision: number) => {
-   if (Number.isSafeInteger(number)) {
-      return number + ""
-   }
-   const fractionalComponent = number - parseInt(number + "")
-   if (fractionalComponent > 0.999 || fractionalComponent < 0.001) {
-      return Math.round(number) + ""
-   }
-   return number.toFixed(precision)
+  if (Number.isSafeInteger(number)) {
+    return number + ""
+  }
+  const fractionalComponent = number - parseInt(number + "")
+  if (fractionalComponent > 0.999 || fractionalComponent < 0.001) {
+    return Math.round(number) + ""
+  }
+  return number.toFixed(precision)
 }

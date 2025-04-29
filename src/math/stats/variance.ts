@@ -1,4 +1,4 @@
-import { mean as meanFn } from "../central_tendency/mean";
+import { mean as meanFn } from "../central_tendency/mean"
 
 /**
  * Calculate the population variance of a dataset.
@@ -8,6 +8,7 @@ import { mean as meanFn } from "../central_tendency/mean";
  * @returns The variance of the dataset
  */
 export function variance(data: number[], mean: number = meanFn(data)): number {
-    const variance = data.reduce((acc, x) => acc + (x - mean) ** 2, 0) / data.length;
-    return variance;
+  const variance =
+    data.reduce((acc, x) => acc + (x - mean) ** 2, 0) / data.length
+  return variance
 }

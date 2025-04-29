@@ -1,4 +1,4 @@
-import { parseTime, TimeUnit } from "./parseTime";
+import { parseTime, TimeUnit } from "./parseTime"
 
 /**
  * Returns true if the local time of `date` falls within the interval [start, end).
@@ -10,14 +10,16 @@ export function isInInterval(
   startString: string,
   endString: string
 ): boolean {
-  const start = parseTime(startString, TimeUnit.SECONDS);
-  const end = parseTime(endString, TimeUnit.SECONDS);
+  const start = parseTime(startString, TimeUnit.SECONDS)
+  const end = parseTime(endString, TimeUnit.SECONDS)
   if (start === end) {
-    throw new Error(`Invalid interval: start ('${startString}') and end ('${endString}') must differ.`);
+    throw new Error(
+      `Invalid interval: start ('${startString}') and end ('${endString}') must differ.`
+    )
   }
-  const t = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+  const t = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
   if (start < end) {
-    return t >= start && t < end;
+    return t >= start && t < end
   }
-  return t >= start || t < end;
+  return t >= start || t < end
 }

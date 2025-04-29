@@ -5,7 +5,7 @@ export function formatShortDateTime(date: Date, locale: string = "en-US") {
     month: "long",
     day: "numeric",
     hour: "numeric",
-    minute: "numeric"
+    minute: "numeric",
   }
   return date.toLocaleDateString(locale, options)
 }

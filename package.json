@@ -30,7 +30,6 @@
     "test": "npx mocha",
     "coverage": "nyc --reporter=text --temp-directory=/tmp/nyc_temp npx mocha",
     "format": "biome format --write .",
-    "lint": "biome lint .",
     "check": "biome check --apply ."
   },
   "exports": {

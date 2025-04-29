@@ -5,22 +5,20 @@
  * @returns
  */
 export function createArrayLooper<T>(items: T[], randomStart = false) {
-    let index: number | undefined;
+  let index: number | undefined
 
-    function next(): T {
-        if (index === undefined) {
-            index = randomStart
-                ? Math.floor(Math.random() * items.length)
-                : 0;
-        } else {
-            index = (index + 1) % items.length;
-        }
-        return items[index];
+  function next(): T {
+    if (index === undefined) {
+      index = randomStart ? Math.floor(Math.random() * items.length) : 0
+    } else {
+      index = (index + 1) % items.length
     }
+    return items[index]
+  }
 
-    next.getIndex = function () {
-        return index || -1
-    };
+  next.getIndex = function () {
+    return index || -1
+  }
 
-    return next
+  return next
 }

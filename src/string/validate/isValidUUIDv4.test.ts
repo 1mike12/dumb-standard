@@ -1,5 +1,5 @@
 import { isValidUUIDv4 } from "./isValidUUIDv4"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("isValidUUID", () => {
   it("should return true for valid UUIDs", () => {

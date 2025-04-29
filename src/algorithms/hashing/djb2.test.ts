@@ -1,5 +1,5 @@
 import { djb2 } from "./djb2"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("djb2", () => {
   it("should return different hashes for different strings", () => {

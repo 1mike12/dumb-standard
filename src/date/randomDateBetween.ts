@@ -4,7 +4,10 @@
  * @param endDate - The end date
  * @returns A random date between the start and end dates
  */
-export function randomDateBetween(startDate: Date, endDate: Date = new Date()): Date {
+export function randomDateBetween(
+  startDate: Date,
+  endDate: Date = new Date()
+): Date {
   const startTimestamp = startDate.getTime()
   const endTimestamp = endDate.getTime()
 

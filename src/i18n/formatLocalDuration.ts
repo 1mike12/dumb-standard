@@ -3,19 +3,19 @@
  * Each entry contains hour, minute, and second labels
  */
 interface TimeUnitLabels {
-  hour: string;
-  minute: string;
-  second: string;
+  hour: string
+  minute: string
+  second: string
 }
 
 const LOCALE_TIME_UNITS: Record<string, TimeUnitLabels> = {
-  'zh': { hour: '小时', minute: '分',  second: '秒'  },
-  'ja': { hour: '時間', minute: '分',  second: '秒'  },
-  'ko': { hour: '시간', minute: '분',  second: '초'  },
-  'ru': { hour: 'ч',   minute: 'м',   second: 'с'   },
-  'pl': { hour: 'godz',minute: 'min', second: 's'   },
-  'default': { hour: 'h', minute: 'm', second: 's' }
-};
+  zh: { hour: "小时", minute: "分", second: "秒" },
+  ja: { hour: "時間", minute: "分", second: "秒" },
+  ko: { hour: "시간", minute: "분", second: "초" },
+  ru: { hour: "ч", minute: "м", second: "с" },
+  pl: { hour: "godz", minute: "min", second: "s" },
+  default: { hour: "h", minute: "m", second: "s" },
+}
 
 /**
  * Gets the appropriate time unit labels for a given locale
@@ -25,10 +25,10 @@ const LOCALE_TIME_UNITS: Record<string, TimeUnitLabels> = {
  */
 function getTimeUnitLabels(locale: string): TimeUnitLabels {
   // Extract the language code from the locale
-  const langCode = locale.split('-')[0].toLowerCase();
+  const langCode = locale.split("-")[0].toLowerCase()
 
   // Return the time unit labels for the locale if available, otherwise return default
-  return LOCALE_TIME_UNITS[langCode] || LOCALE_TIME_UNITS['default'];
+  return LOCALE_TIME_UNITS[langCode] || LOCALE_TIME_UNITS["default"]
 }
 
 /**
@@ -42,23 +42,27 @@ function getTimeUnitLabels(locale: string): TimeUnitLabels {
 export function formatLocalDuration(seconds: number, locale: string): string {
   // Input validation
   if (!Number.isFinite(seconds) || seconds < 0) {
-    return '0s';
+    return "0s"
   }
 
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const remainingSeconds = Math.floor(seconds % 60)
 
   // Get the appropriate time unit labels for the locale
-  const { hour: hourLabel, minute: minuteLabel, second: secondLabel } = getTimeUnitLabels(locale);
+  const {
+    hour: hourLabel,
+    minute: minuteLabel,
+    second: secondLabel,
+  } = getTimeUnitLabels(locale)
 
   // Format the duration based on the significant units
   if (hours > 0) {
-    return `${hours}${hourLabel}${minutes}${minuteLabel}`;
+    return `${hours}${hourLabel}${minutes}${minuteLabel}`
   } else if (minutes > 0) {
-    return `${minutes}${minuteLabel}${remainingSeconds}${secondLabel}`;
+    return `${minutes}${minuteLabel}${remainingSeconds}${secondLabel}`
   } else {
-    return `${remainingSeconds}${secondLabel}`;
+    return `${remainingSeconds}${secondLabel}`
   }
 }
 
@@ -70,28 +74,39 @@ export function formatLocalDuration(seconds: number, locale: string): string {
  * @param locale - The locale string (e.g., 'en-US', 'zh-CN', 'fr-FR')
  * @returns A formatted string representing the duration
  */
-export function formatLocalDurationWithLocalizedNumbers(seconds: number, locale: string): string {
+export function formatLocalDurationWithLocalizedNumbers(
+  seconds: number,
+  locale: string
+): string {
   if (!Number.isFinite(seconds) || seconds < 0) {
-    return '0s';
+    return "0s"
   }
 
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const remainingSeconds = Math.floor(seconds % 60)
 
   // Format numbers according to locale
   const formatter = new Intl.NumberFormat(locale, {
-    useGrouping: false // Don't use thousand separators
-  });
+    useGrouping: false, // Don't use thousand separators
+  })
 
   // Get the appropriate time unit labels for the locale
-  const { hour: hourLabel, minute: minuteLabel, second: secondLabel } = getTimeUnitLabels(locale);
+  const {
+    hour: hourLabel,
+    minute: minuteLabel,
+    second: secondLabel,
+  } = getTimeUnitLabels(locale)
 
   if (hours > 0) {
-    return `${formatter.format(hours)}${hourLabel}${formatter.format(minutes)}${minuteLabel}`;
+    return `${formatter.format(hours)}${hourLabel}${formatter.format(
+      minutes
+    )}${minuteLabel}`
   } else if (minutes > 0) {
-    return `${formatter.format(minutes)}${minuteLabel}${formatter.format(remainingSeconds)}${secondLabel}`;
+    return `${formatter.format(minutes)}${minuteLabel}${formatter.format(
+      remainingSeconds
+    )}${secondLabel}`
   } else {
-    return `${formatter.format(remainingSeconds)}${secondLabel}`;
+    return `${formatter.format(remainingSeconds)}${secondLabel}`
   }
 }

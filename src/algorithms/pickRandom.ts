@@ -8,8 +8,10 @@
  * chosen without the need to shuffle the entire array.
  */
 export function pickRandom<T>(arr: T[], n: number): T[] {
-  if (n < 0) throw new RangeError("pickRandom: number of elements cannot be negative")
-  if (n > arr.length) throw new RangeError("pickRandom: more elements taken than available")
+  if (n < 0)
+    throw new RangeError("pickRandom: number of elements cannot be negative")
+  if (n > arr.length)
+    throw new RangeError("pickRandom: more elements taken than available")
 
   const result = arr.slice(0, n)
 

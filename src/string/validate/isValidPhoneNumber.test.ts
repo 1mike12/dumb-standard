@@ -1,5 +1,5 @@
 import { isValidPhoneNumber } from "./isValidPhoneNumber"
-import {expect} from "chai";
+import { expect } from "chai"
 
 describe("isValidPhoneNumber", () => {
   it("returns true for a valid phone number", () => {
