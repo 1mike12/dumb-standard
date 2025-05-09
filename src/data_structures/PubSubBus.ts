@@ -1,9 +1,9 @@
 // PubSubBus.ts
 
 /**
- * A simple callback type that receives a message of type M
+ * A simple callback type that receives a topic of type K and a message of type M
  */
-export type OnPublish<M> = (message: M) => void;
+export type OnPublish<K, M> = (topic: K, message: M) => void;
 
 /**
  * A pub/sub bus keyed by topics of type K,
@@ -14,13 +14,13 @@ export type OnPublish<M> = (message: M) => void;
  * @typeParam M - The message type that will be published and received by subscribers
  */
 export class PubSubBus<K, M> {
-  private topics = new Map<K, Set<OnPublish<M>>>();
+  private topics = new Map<K, Set<OnPublish<K, M>>>();
 
   /**
    * Start listening on `topic`.  If this is the first
    * subscriber for that key, a new Set is created.
    */
-  subscribe(topic: K, fn: OnPublish<M>): void {
+  subscribe(topic: K, fn: OnPublish<K, M>): void {
     let subs = this.topics.get(topic);
     if (!subs) {
       subs = new Set();
@@ -33,7 +33,7 @@ export class PubSubBus<K, M> {
    * Stop listening.  If it was the last subscriber,
    * the topic is removed altogether.
    */
-  unsubscribe(topic: K, fn: OnPublish<M>): void {
+  unsubscribe(topic: K, fn: OnPublish<K, M>): void {
     const subs = this.topics.get(topic);
     if (!subs || !subs.has(fn)) {
       throw new Error(`No such subscriber for topic ${String(topic)}`);
@@ -53,7 +53,7 @@ export class PubSubBus<K, M> {
     if (!subs) return;
     for (const fn of subs) {
       try {
-        fn(message);
+        fn(topic, message);
       } catch (err) {
         console.error("Subscriber threw:", err);
       }
