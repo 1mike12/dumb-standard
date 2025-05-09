@@ -1,6 +1,6 @@
 {
   "name": "dumb-standard",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A collection of standard algorithms and data structures for TypeScript projects",
   "type": "commonjs",
   "license": "MS-PL",
@@ -21,7 +21,11 @@
     "data-structures",
     "standard-library"
   ],
-  "files": ["dist", "LICENSE", "README.md"],
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "prepublishOnly": "yarn build",
     "build": "yarn barrels && tsup",
