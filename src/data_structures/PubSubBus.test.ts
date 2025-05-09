@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { PubSubBus, Subscriber } from './PubSubBus';
+import { PubSubBus, OnPublish } from './PubSubBus';
 
 describe('PubSubBus', () => {
   let bus: PubSubBus<string, number>;
@@ -10,13 +10,13 @@ describe('PubSubBus', () => {
 
   describe('subscribe', () => {
     it('should add a subscriber to a topic', () => {
-      const subscriber: Subscriber<number> = (msg) => {};
+      const subscriber: OnPublish<number> = (msg) => {};
       bus.subscribe('test', subscriber);
       expect(bus.hasSubscribers('test')).to.be.true;
     });
 
     it('should create a new Set for first subscriber of a topic', () => {
-      const subscriber: Subscriber<number> = (msg) => {};
+      const subscriber: OnPublish<number> = (msg) => {};
       bus.subscribe('test', subscriber);
       expect(bus.hasSubscribers('test')).to.be.true;
     });
@@ -24,19 +24,19 @@ describe('PubSubBus', () => {
 
   describe('unsubscribe', () => {
     it('should remove a subscriber from a topic', () => {
-      const subscriber: Subscriber<number> = (msg) => {};
+      const subscriber: OnPublish<number> = (msg) => {};
       bus.subscribe('test', subscriber);
       bus.unsubscribe('test', subscriber);
       expect(bus.hasSubscribers('test')).to.be.false;
     });
 
     it('should throw error when unsubscribing non-existent subscriber', () => {
-      const subscriber: Subscriber<number> = (msg) => {};
+      const subscriber: OnPublish<number> = (msg) => {};
       expect(() => bus.unsubscribe('test', subscriber)).to.throw('No such subscriber for topic test');
     });
 
     it('should remove topic when last subscriber is removed', () => {
-      const subscriber: Subscriber<number> = (msg) => {};
+      const subscriber: OnPublish<number> = (msg) => {};
       bus.subscribe('test', subscriber);
       bus.unsubscribe('test', subscriber);
       expect(bus.hasSubscribers('test')).to.be.false;
@@ -46,7 +46,7 @@ describe('PubSubBus', () => {
   describe('publish', () => {
     it('should call all subscribers with the message', () => {
       let receivedMessage: number | undefined;
-      const subscriber: Subscriber<number> = (msg) => { receivedMessage = msg; };
+      const subscriber: OnPublish<number> = (msg) => { receivedMessage = msg; };
       
       bus.subscribe('test', subscriber);
       bus.publish('test', 42);
@@ -56,8 +56,8 @@ describe('PubSubBus', () => {
 
     it('should handle multiple subscribers', () => {
       const messages: number[] = [];
-      const subscriber1: Subscriber<number> = (msg) => { messages.push(msg); };
-      const subscriber2: Subscriber<number> = (msg) => { messages.push(msg * 2); };
+      const subscriber1: OnPublish<number> = (msg) => { messages.push(msg); };
+      const subscriber2: OnPublish<number> = (msg) => { messages.push(msg * 2); };
       
       bus.subscribe('test', subscriber1);
       bus.subscribe('test', subscriber2);
@@ -72,7 +72,7 @@ describe('PubSubBus', () => {
 
     it('should catch and log subscriber errors', () => {
       const error = new Error('Test error');
-      const subscriber: Subscriber<number> = () => { throw error; };
+      const subscriber: OnPublish<number> = () => { throw error; };
       
       // Spy on console.error
       const originalError = console.error;
@@ -91,7 +91,7 @@ describe('PubSubBus', () => {
 
   describe('clear', () => {
     it('should clear all topics when no topic specified', () => {
-      const subscriber: Subscriber<number> = (msg) => {};
+      const subscriber: OnPublish<number> = (msg) => {};
       bus.subscribe('test1', subscriber);
       bus.subscribe('test2', subscriber);
       
@@ -102,7 +102,7 @@ describe('PubSubBus', () => {
     });
 
     it('should clear specific topic when specified', () => {
-      const subscriber: Subscriber<number> = (msg) => {};
+      const subscriber: OnPublish<number> = (msg) => {};
       bus.subscribe('test1', subscriber);
       bus.subscribe('test2', subscriber);
       
@@ -110,6 +110,23 @@ describe('PubSubBus', () => {
       
       expect(bus.hasSubscribers('test1')).to.be.false;
       expect(bus.hasSubscribers('test2')).to.be.true;
+    });
+  });
+
+  describe("other stuff", () => {
+    it("should be able to pass in my custom class", () => {
+      class MyClass {
+        constructor(public readonly name: string) {}
+        onMessage(msg: string) {
+          expect(msg).to.equal("test");
+        }
+      }
+      const bus = new PubSubBus<string, string>();
+      const topic = "my-topic";
+      const myClass = new MyClass("test");
+      bus.subscribe(topic, myClass.onMessage);
+
+      bus.publish(topic, "test");
     });
   });
 }); 
