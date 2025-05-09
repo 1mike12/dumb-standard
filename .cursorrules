@@ -1,0 +1,19 @@
+This project is a collection of standard algorithms and data structures for TypeScript projects. It provides reusable and optimized implementations of common data structures (like the PubSubBus) and algorithms that can be used across different TypeScript projects.
+
+Write self-documenting code that is clear and highly readable. Most code should be self-evident without comments. Only use comments for:
+- Magic numbers or constants that aren't obvious
+- Unorthodox workarounds or edge cases
+- Complex TypeScript type wrangling
+
+Use 2 spaces for indentation and format with Biome (not Prettier).
+
+When writing tests:
+- Only create tests when explicitly asked
+- Tests should be placed as siblings to the source file (e.g., `PubSubBus.ts` and `PubSubBus.test.ts`)
+- After creating tests, always run the specific test file to verify it works
+- Use Mocha as the test framework with Chai for assertions
+- SWC is used for fast compilation - do not modify the testing setup
+- Do not try to install ts-node
+- Run only the specific test file, not the entire test suite
+
+Keep dependencies to a minimum. Do not add new npm dependencies unless absolutely necessary, and ask for approval before suggesting any new ones. Keep the code as self-contained and self-managed as possible.
