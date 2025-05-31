@@ -41,12 +41,11 @@ export class HashRing {
     if (this.continuum.length === 0) return null;
 
     const keyHash = this.hash32(key);
-    let pos = lowerBoundSearch(this.continuum, keyHash, (entry: ContinuumEntry, targetHash: number) => {
-      return entry.hash - targetHash;
-    });
+    const hashes = this.continuum.map(entry => entry.hash);
+    let pos = lowerBoundSearch(hashes, keyHash);
 
     // if keyHash is bigger than any entry, wrap around
-    if (pos === this.continuum.length) {
+    if (pos === hashes.length) {
       pos = 0;
     }
     return this.servers[this.continuum[pos].serverIdx];
@@ -77,6 +76,17 @@ export class HashRing {
   }
 
   private hash32(data: string): number {
+    /*
+    we only need the first 32 bits (4 bytes) of the md5 hash
+    (0xAB << 24) = 0xAB000000
+    (0xCD << 16) = 0x00CD0000
+    (0xEF <<  8) = 0x0000EF00
+    (0x12      ) = 0x00000012
+    -----------------------------------
+    OR all together → 0xABCDEF12
+
+    finally, we need to >>> 0 to ensure the result is a positive integer
+    */
     const md5buf = createHash("md5").update(data).digest();
     return (
       ((md5buf[0] & 0xff) << 24) |

@@ -4,7 +4,9 @@
 
 export * from "./algorithms/pickRandom";
 export * from "./algorithms/array/binarySearch";
+export * from "./algorithms/array/boundedSearch";
 export * from "./algorithms/array/createArrayLooper";
+export * from "./algorithms/array/defaultComparator";
 export * from "./algorithms/hashing/djb2";
 export * from "./algorithms/matrix/rotate2DArray";
 export * from "./algorithms/shuffle/shuffleFisherYates";
@@ -13,6 +15,7 @@ export * from "./data_structures/LinkedList";
 export * from "./data_structures/PubSubBus";
 export * from "./data_structures/RingBuffer";
 export * from "./data_structures/ExpiringArray/ExpiringArray";
+export * from "./data_structures/HashRing/HashRing";
 export * from "./data_structures/LRU/LRU";
 export * from "./date/getISODateDelta";
 export * from "./date/isInInterval";
