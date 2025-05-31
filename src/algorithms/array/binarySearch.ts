@@ -1,6 +1,4 @@
-function defaultComparator(a, b) {
-  return a - b
-}
+import {compareFunctionType, defaultComparator} from "./defaultComparator";
 
 /**
  * finds the index of the first element in the array that is greater than or equal to the target
@@ -8,10 +6,10 @@ function defaultComparator(a, b) {
  * @param target
  * @param comparator
  */
-export function binarySearch(
-  arr: unknown[],
+export function binarySearch<T>(
+  arr: T[],
   target: any,
-  comparator = defaultComparator
+  comparator : compareFunctionType<T> = defaultComparator
 ) {
   let lo = 0
   let hi = arr.length - 1
